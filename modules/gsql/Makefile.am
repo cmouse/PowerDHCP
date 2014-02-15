@@ -1,2 +1,0 @@
-lib_LTLIBRARIES=libgsqlbackend.la
-libgsqlbackend_la_SOURCES=sqlbackend.hh sqlbackend.cc

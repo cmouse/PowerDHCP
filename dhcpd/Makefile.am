@@ -1,3 +1,7 @@
-sbin_PROGRAMS = dhcpd
-dhcpd_SOURCES = dhcpd.cc
-dhcpd_LDADD = ../common/libpowerdhcp.la
+AM_CXXFLAGS=-I../includes $(PIE_CFLAGS) $(PTHREAD_CFLAGS)
+
+sbin_PROGRAMS=dhcpd
+
+dhcpd_SOURCES=dhcpd-main.cc 
+dhcpd_LDADD=-L../libltdl $(LIBLTDL) -L../common -lpowerdhcp $(BOOST_PROGRAM_OPTIONS_LDPATH) $(BOOST_PROGRAM_OPTIONS_LIBS) $(PIE_LDFLAGS) $(RELRO_LDFLAGS) $(PTHREAD_LIBS)
+

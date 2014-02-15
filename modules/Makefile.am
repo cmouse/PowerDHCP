@@ -1,2 +1,0 @@
-SUBDIRS=gsql 
-DIST_SUBDIRS=gsql

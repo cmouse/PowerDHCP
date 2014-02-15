@@ -1,0 +1,11 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+before_script:
+  - sudo apt-get install --no-install-recommends libboost-all-dev liblua5.1-dev libtool pkg-config
+  - ./autogen.sh
+script:
+  - ./configure 
+  - make -j4
+  - make check 

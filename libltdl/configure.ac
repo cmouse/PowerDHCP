@@ -45,8 +45,11 @@ AC_CONFIG_HEADERS([config.h:config-h.in])
 AC_CONFIG_SRCDIR([ltdl.c])
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_MACRO_DIR([m4])
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 LT_CONFIG_LTDL_DIR([.]) # I am me!
 
+AC_CC_PIE
+AC_LD_RELRO
 
 ## ------------------------ ##
 ## Automake Initialisation. ##
