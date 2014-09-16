@@ -1,7 +1,7 @@
 #include "powerdhcp.hh"
 
 namespace PowerDHCP {
-  Logging theL;
+  Logger theL;
 
   pthread_rwlock_t Logger::d_lock = PTHREAD_RWLOCK_INITIALIZER;
 
@@ -24,7 +24,8 @@ namespace PowerDHCP {
     if (strerror_r(errno, buf, 1024))
       ret.assign(buf);
 #else
-    #error "PowerDHCP::stringerror is not threadsafe on this system"
+    #warning "PowerDHCP::stringerror might not be threadsafe on this system"
+    ret.assign(strerror(errno)); 
 #endif
     delete [] buf;
     return ret;
