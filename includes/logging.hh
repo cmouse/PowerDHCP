@@ -1,5 +1,7 @@
 #include <syslog.h>
 
+#define L PowerDHCP::theL.log()
+
 namespace PowerDHCP {
   class Logger : boost::noncopyable {
   public:
@@ -14,9 +16,10 @@ namespace PowerDHCP {
 
     static const char* LEVEL[]; 
 
-    class LogObject : boost::noncopyable {
+    class LogObject {
     public:
       LogObject(Logger *logger) { this->logger = logger; };
+      LogObject(const LogObject& rhs) { this->logger = rhs.logger; this->str.str(rhs.str.str()); this->level = rhs.level; };
       LogObject& operator<<(LogLevel l) { this->level = l; return *this; };
       LogObject& operator<<(const std::string& s) { str << s; return *this; };
       LogObject& operator<<(int i) { str << i; return *this; };
@@ -31,7 +34,7 @@ namespace PowerDHCP {
       LogLevel level;
     };
 
-    Logger() { reinitialize(); };
+    Logger() { };
     ~Logger() { 
       WriteLock wl(&d_lock);
       if (do_syslog) closelog(); 
@@ -46,12 +49,14 @@ namespace PowerDHCP {
         if (do_logfile) d_ofs_file.close();
 
         do_syslog  = config["log.syslog"].as<bool>();
-        do_logfile = config["log.file"].str().empty() == false;
-        d_logfile  = config["log.file"].str();
+        do_logfile = config["log.file"].as<std::string>().empty() == false;
+        d_logfile  = config["log.file"].as<std::string>();
         d_loglevel = config["log.level"].as<int>();
         do_console = config["log.stderr"].as<bool>();
-        d_ident    = config["log.ident"].str();
-        d_facility = facility2int(boost::to_lower_copy(config["log.facility"].str()));
+        d_ident    = config["log.ident"].as<std::string>();
+        d_facility = facility2int(boost::to_lower_copy(config["log.facility"].as<std::string>()));
+
+        if (!do_syslog && !do_logfile && !do_console) do_console = true;
 
         if (do_syslog) openlog(d_ident.c_str(), d_facility, LOG_NDELAY|LOG_PID);
         try {
