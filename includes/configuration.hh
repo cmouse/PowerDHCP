@@ -27,6 +27,7 @@ namespace PowerDHCP {
     bool isNull() const { return null; }; 
     template<typename T> void set(T value) { this->value = boost::lexical_cast<std::string>(value); defined = true; null = false; };
     void setNull() { this->value = ""; null = true; defined = true; };
+    void setUndefined() { this->value = ""; null = true; defined = false; };
     void load(const std::string& value) { this->value = value; defined = true; null = false; };
     void setDescription(const std::string& description) { this->descr = description; };
     const std::string& description() const { return this->descr; };
@@ -72,7 +73,7 @@ namespace PowerDHCP {
 
     void load(const std::string& file, UnknownKeyAction act);
     void load(int argc, const char** argv, UnknownKeyAction act);
-    void clear() { values.clear(); };
+    void clear() { for(std::map<std::string, ConfigValue>::iterator i = values.begin(); i != values.end(); i++) i->second.setUndefined(); };
     bool has(const std::string& key) const {
       return (values.count(key)>0);
     };
@@ -96,3 +97,4 @@ namespace PowerDHCP {
 
   extern Configuration config;
 };
+
