@@ -145,14 +145,17 @@ namespace PowerDHCP {
     std::string sect;
     for(std::map<std::string, ConfigValue>::const_iterator i = configuration.values.begin(); i != configuration.values.end(); i++) {
       std::string key = i->first;
+      if (key == "help" || key == "config") continue;
       std::string::size_type pos = key.find_last_of(".");
       if (pos != std::string::npos) {
-        if (sect.size() != pos || sect.compare(pos, sect.size(), key)) {
+        if (sect.size() != pos || key.compare(0, sect.size(), sect)) {
           // section has changed
           sect = key.substr(0, pos);
           stream << std::endl << "[" << sect << "]" << std::endl;
         }
         key = key.substr(pos+1);
+      } else {
+        throw PowerDHCP::Exception("Key " + key + " missing section name");
       }
       stream << "; " << i->second.description() << std::endl;
       if (i->second.isDefined())
