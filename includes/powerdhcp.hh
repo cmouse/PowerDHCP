@@ -1,3 +1,4 @@
+#pragma once
 #include "config.h"
 #include <iostream>
 #include <cstdlib>
@@ -21,6 +22,7 @@
 #include <error.h>
 #include <errno.h>
 #include <strings.h>
+#include <algorithm>
 
 #ifdef HAVE_CXX11
 #define THROW noexcept
@@ -45,3 +47,4 @@ namespace PowerDHCP {
 #include "lock.hh"
 #include "configuration.hh"
 #include "logging.hh"
+#include "packet.hh"
