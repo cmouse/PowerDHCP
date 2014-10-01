@@ -1,3 +1,4 @@
+#pragma once
 #include <syslog.h>
 
 #define L PowerDHCP::theL.log()

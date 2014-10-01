@@ -1,3 +1,5 @@
+#pragma once
+
 /*
     PowerDNS Versatile Database Driven Nameserver
     Copyright (C) 2002  PowerDNS.COM BV

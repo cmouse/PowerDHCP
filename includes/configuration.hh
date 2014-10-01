@@ -1,3 +1,5 @@
+#pragma once
+
 namespace PowerDHCP {
   void initialize(int argc, const char **argv);
 
